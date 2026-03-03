@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Energy & Mindset Optimizationn — Confirme ta commande</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #0a0a0a;
+  --white: #ffffff;
+  --off-white: #f7f6f3;
+  --gray-100: #f0efe9;
+  --gray-300: #d4d2ca;
+  --gray-500: #8a887e;
+  --gray-700: #3d3c37;
+  --blue: #0071e3;
+  --blue-light: #e8f2ff;
+  --green: #1a9e5c;
+  --green-light: #e6f7ef;
+  --amber: #d97706;
+  --amber-light: #fef3c7;
+  --text: #1a1a18;
+  --text-soft: #6b6960;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--off-white);
+  color: var(--text);
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─── PROGRESS BAR ─── */
+.progress-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gray-300);
+  z-index: 100;
+}
+.progress-fill {
+  height: 100%;
+  width: 66%;
+  background: var(--blue);
+  transition: width 0.4s ease;
+}
+
+/* ─── NAV ─── */
+nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-300);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 3px;
+}
+.nav-logo {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.nav-steps {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--gray-500);
+}
+.nav-step { display: flex; align-items: center; gap: 6px; }
+.nav-step-num {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700;
+  background: var(--gray-300);
+  color: var(--gray-500);
+}
+.nav-step.active .nav-step-num { background: var(--blue); color: white; }
+.nav-step.done .nav-step-num { background: var(--green); color: white; }
+.nav-step-label { font-size: 11px; }
+.nav-sep { color: var(--gray-300); font-size: 10px; }
+
+/* ─── LAYOUT ─── */
+.page {
+  min-height: 100vh;
+  padding: 48px 24px 80px;
+}
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 32px;
+  align-items: start;
+}
+
+.left-col { display: flex; flex-direction: column; gap: 24px; }
+
+.card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 32px;
+  border: 1px solid var(--gray-300);
+}
+
+.card-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+
+/* ─── PRODUCT PREVIEW ─── */
+.product-preview {
+  background: var(--black);
+  border-radius: 20px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.product-preview::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 240px; height: 240px;
+  background: radial-gradient(circle, rgba(0,113,227,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.product-preview::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: -40px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(26,158,92,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.product-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 20px;
+}
+.product-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0,113,227,0.2);
+  color: #5eb0ff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+.product-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #f5f5f2;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 24px;
+}
+.product-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.product-feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(245,245,242,0.75);
+}
+.feat-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--blue);
+  flex-shrink: 0;
+}
+.feat-dot.green { background: var(--green); }
+.product-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.product-was {
+  font-size: 16px;
+  color: rgba(245,245,242,0.25);
+  text-decoration: line-through;
+  letter-spacing: -0.01em;
+}
+.product-price-main {
+  font-size: 44px;
+  font-weight: 700;
+  color: #f5f5f2;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.product-price-main sup { font-size: 20px; vertical-align: super; }
+.product-price-note {
+  font-size: 13px;
+  color: rgba(245,245,242,0.35);
+}
+
+/* ─── WHAT'S INCLUDED ─── */
+.included-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 28px 32px;
+  border: 1px solid var(--gray-300);
+}
+.included-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.included-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.included-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--gray-100);
+  font-size: 14px;
+}
+.included-item:last-child { border-bottom: none; }
+.included-item-left { display: flex; align-items: center; gap: 10px; color: var(--text); }
+.included-item-check {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--green-light);
+  color: var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.included-item-value {
+  font-size: 13px;
+  color: var(--text-soft);
+  text-decoration: line-through;
+}
+
+/* ─── UPSELL ─── */
+.upsell-card {
+  background: var(--white);
+  border: 2px solid var(--gray-300);
+  border-radius: 20px;
+  padding: 28px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.upsell-card:hover { border-color: var(--blue); box-shadow: 0 8px 32px rgba(0,113,227,0.08); }
+.upsell-card.selected { border-color: var(--blue); background: var(--blue-light); }
+
+.upsell-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--amber-light);
+  color: var(--amber);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+.upsell-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.upsell-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.upsell-toggle {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--gray-300);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  color: var(--gray-500);
+  font-weight: 700;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.upsell-card.selected .upsell-toggle {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: white;
+}
+.upsell-desc {
+  font-size: 14px;
+  color: var(--text-soft);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.upsell-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+.upsell-price-left { display: flex; align-items: baseline; gap: 8px; }
+.upsell-price-new {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--blue);
+  letter-spacing: -0.03em;
+}
+.upsell-price-new sup { font-size: 13px; vertical-align: super; }
+.upsell-price-note { font-size: 13px; color: var(--text-soft); }
+.upsell-saving {
+  display: inline-flex;
+  align-items: center;
+  background: var(--green-light);
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+/* ─── RIGHT COLUMN ─── */
+.right-col {
+  position: sticky;
+  top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.summary-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 28px;
+  border: 1px solid var(--gray-300);
+}
+.summary-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--gray-300);
+}
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  padding: 8px 0;
+  color: var(--text-soft);
+}
+.summary-line.main { color: var(--text); font-weight: 500; }
+.summary-line.upsell-line {
+  color: var(--blue);
+  font-size: 13px;
+  opacity: 0;
+  max-height: 0;
+  padding: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.summary-line.upsell-line.visible {
+  opacity: 1;
+  max-height: 40px;
+  padding: 8px 0;
+}
+.summary-divider { border: none; border-top: 1px solid var(--gray-300); margin: 8px 0; }
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+}
+.summary-total-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+.summary-total-price {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  transition: all 0.3s ease;
+}
+.summary-total-price sup { font-size: 16px; vertical-align: super; }
+
+.cta-btn {
+  display: block;
+  width: 100%;
+  background: var(--blue);
+  color: white;
+  text-align: center;
+  padding: 16px 20px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.cta-btn:hover { background: #0066cc; transform: translateY(-1px); }
+.cta-btn:active { transform: translateY(0); }
+
+.secure-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: var(--green-light);
+  border-radius: 14px;
+}
+.secure-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--green);
+  font-weight: 500;
+}
+
+.reassurance-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid var(--gray-300);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.reassurance-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.reassurance-icon { font-size: 18px; flex-shrink: 0; }
+.reassurance-text { font-size: 13px; color: var(--text-soft); line-height: 1.5; }
+.reassurance-text strong { color: var(--text); font-weight: 600; }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards;
+}
+.fade-up:nth-child(1) { animation-delay: 0.05s; }
+.fade-up:nth-child(2) { animation-delay: 0.15s; }
+.fade-up:nth-child(3) { animation-delay: 0.25s; }
+.fade-up:nth-child(4) { animation-delay: 0.35s; }
+
+/* ─── REVIEWS ─── */
+.reviews-block { display: flex; flex-direction: column; gap: 12px; }
+.review-card { background: var(--white); border: 1px solid var(--gray-300); border-radius: 16px; padding: 20px 24px; display: flex; flex-direction: column; gap: 8px; }
+.review-stars { font-size: 14px; color: #f59e0b; letter-spacing: 2px; }
+.review-text { font-size: 14px; color: var(--text); line-height: 1.65; font-style: italic; }
+.review-author { font-size: 12px; font-weight: 600; color: var(--text-soft); letter-spacing: 0.03em; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 720px) {
+  .container { grid-template-columns: 1fr; }
+  .right-col { position: static; }
+  .nav-steps { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill"></div></div>
+
+<nav>
+  <div class="nav-logo">Optimizationn ®</div>
+  <div class="nav-steps">
+    <div class="nav-step done">
+      <div class="nav-step-num">✓</div>
+      <div class="nav-step-label">Offre</div>
+    </div>
+    <div class="nav-sep">›</div>
+    <div class="nav-step active">
+      <div class="nav-step-num">2</div>
+      <div class="nav-step-label">Confirmation</div>
+    </div>
+    <div class="nav-sep">›</div>
+    <div class="nav-step">
+      <div class="nav-step-num">3</div>
+      <div class="nav-step-label">Paiement</div>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="container">
+
+    <!-- LEFT -->
+    <div class="left-col">
+
+      <!-- Product recap -->
+      <div class="fade-up">
+        <div class="card-eyebrow" style="margin-bottom:8px;">Ta commande</div>
+        <div class="product-preview">
+          <div class="product-label">Inclus dans ta commande</div>
+          <div class="product-badge">⭐ Le plus choisi</div>
+          <div class="product-title">Energy & Mindset<br>Optimizationn — Core</div>
+          <ul class="product-features">
+            <li class="product-feature">
+              <span class="feat-dot"></span>
+              Modules Energy Optimizationn ® complets
+            </li>
+            <li class="product-feature">
+              <span class="feat-dot"></span>
+              Modules Mindset Optimizationn ® complets
+            </li>
+            <li class="product-feature">
+              <span class="feat-dot"></span>
+              Annexes, routines & cours
+            </li>
+            <li class="product-feature">
+              <span class="feat-dot green"></span>
+              Tracker Energy & Habitudes Excel — offert
+            </li>
+          </ul>
+          <div class="product-price-row">
+            <div class="product-was">97€</div>
+            <div class="product-price-main"><sup>€</sup>47</div>
+            <div class="product-price-note">offre de lancement · accès immédiat</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Avis clients -->
+      <div class="fade-up">
+        <div class="reviews-block">
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"J'étais sceptique au départ mais les résultats sont là. J'avais enregistré des conseils par ci par là sur insta pour évoluer mais sans jamais vraiment appliquer et je savais pas dans quel ordre le faire. Là, ça reprend les bases vraiment efficaces et y'a une progression pas à pas claire, et ça cest cool. Jai découvert pas mal de trucs utiles comme la HRV et la technique de Huberman que j'utilise au quotidien maintenant. "</div>
+            <div class="review-author">Ronan S. — vérifié</div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★</div>
+            <div class="review-text">"Ce qui m'a convaincu c'est le tracker et la partie mindset. J'avais besoin d'un cadre clair, pouvoir observer ma progression et avancer mentalement et pour l'instant ça semble bien marcher. Mon drive au quotidien a vraiment changé et j'avance plus vite dans mes projets. Seul bémol l'interface de formation system io dans laquelle on s'y perd un peu desfois, mais sinon vraiment incroyable je recommande."</div>
+            <div class="review-author">Simon G. — vérifié</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ce qui est inclus -->
+      <div class="fade-up included-card">
+        <div class="included-title">Ce que tu reçois</div>
+        <ul class="included-list">
+          <li class="included-item">
+            <div class="included-item-left">
+              <div class="included-item-check">✓</div>
+              Energy Optimizationn ®
+            </div>
+            <span class="included-item-value">47€</span>
+          </li>
+          <li class="included-item">
+            <div class="included-item-left">
+              <div class="included-item-check">✓</div>
+              Mindset Optimizationn ®
+            </div>
+            <span class="included-item-value">47€</span>
+          </li>
+          <li class="included-item">
+            <div class="included-item-left">
+              <div class="included-item-check">✓</div>
+              Annexes, cours & routines
+            </div>
+            <span class="included-item-value">17€</span>
+          </li>
+          <li class="included-item">
+            <div class="included-item-left">
+              <div class="included-item-check" style="background:var(--green-light); color:var(--green);">✓</div>
+              Tracker Excel — <span style="color:var(--green); font-weight:600; margin-left:4px;">offert</span>
+            </div>
+            <span class="included-item-value">17€</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Upsell Elite -->
+      <div class="fade-up">
+        <div class="card-eyebrow" style="margin-bottom:12px;">Envie d'aller plus vite ?</div>
+        <div class="upsell-card" id="upsell-card" onclick="toggleUpsell()">
+          <div class="upsell-badge">⚡ Offre spéciale · une seule fois</div>
+          <div class="upsell-header">
+            <div class="upsell-title">Ajoute l'accompagnement WhatsApp</div>
+            <div class="upsell-toggle" id="upsell-toggle">+</div>
+          </div>
+          <div class="upsell-desc">Un blocage ? Une question sur le protocole ? Je réponds directement sur WhatsApp. Pour ceux qui veulent avancer sans jamais rester bloqués.</div>
+          <div class="upsell-price-row">
+            <div class="upsell-price-left">
+              <div class="upsell-price-new"><sup>€</sup>50 <span style="font-size:14px; font-weight:400; color:var(--text-soft);">de plus</span></div>
+              <div class="upsell-price-note">soit 97€ au total</div>
+            </div>
+            <div class="upsell-saving">Tu économises 100€</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Note accès -->
+      <div class="fade-up card" style="background: var(--gray-100); border-color: transparent;">
+        <p style="font-size:13px; color:var(--text-soft); line-height:1.7;">
+          <strong style="color:var(--text);">Accès immédiat après paiement.</strong> Tu reçois un email avec ton lien d'accès à la formation. Si tu n'as pas reçu dans 5 minutes, vérifie tes spams — ou réponds directement à l'email de confirmation.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right-col fade-up">
+
+      <div class="summary-card">
+        <div class="summary-title">Récapitulatif</div>
+
+        <div class="summary-line main">
+          <span>Energy & Mindset Core</span>
+          <span>47€</span>
+        </div>
+        <div class="summary-line upsell-line" id="upsell-summary-line">
+          <span>+ Accompagnement WhatsApp</span>
+          <span>+50€</span>
+        </div>
+
+        <hr class="summary-divider">
+
+        <div class="summary-total">
+          <div class="summary-total-label">Total</div>
+          <div class="summary-total-price" id="total-price"><sup>€</sup>47</div>
+        </div>
+      </div>
+
+      <a href="#" class="cta-btn" onclick="goToPayment(event)">
+        Accéder au paiement sécurisé →
+      </a>
+
+      <div class="secure-badges">
+        <div class="secure-badge">🔒 Paiement 100% sécurisé</div>
+        <div class="secure-badge">⚡ Accès immédiat après paiement</div>
+        <div class="secure-badge">📧 Lien envoyé par email</div>
+      </div>
+
+      <div class="reassurance-card">
+        <div class="reassurance-item">
+          <div class="reassurance-icon">💬</div>
+          <div class="reassurance-text"><strong>Une question ?</strong> Réponds à l'email de confirmation ou contacte @optimisationn sur Instagram.</div>
+        </div>
+        <div class="reassurance-item">
+          <div class="reassurance-icon">📱</div>
+          <div class="reassurance-text"><strong>Accessible partout.</strong> La formation est hébergée sur system.io, accessible depuis n'importe quel appareil.</div>
+        </div>
+        <div class="reassurance-item">
+          <div class="reassurance-icon">♾️</div>
+          <div class="reassurance-text"><strong>Accès à vie.</strong> Tu accèdes à la formation quand tu veux, autant de fois que tu veux.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // URLs system.io — remplace par tes vrais liens
+  const CORE_URL  = 'https://s93926960.systeme.io/commandeoptimisationnelitecore';
+  const ELITE_URL = 'https://s93926960.systeme.io/commandeoptimisationnelite';
+
+  let upsellSelected = false;
+
+  function toggleUpsell() {
+    upsellSelected = !upsellSelected;
+    const card = document.getElementById('upsell-card');
+    const toggle = document.getElementById('upsell-toggle');
+    const summaryLine = document.getElementById('upsell-summary-line');
+    const totalPrice = document.getElementById('total-price');
+
+    card.classList.toggle('selected', upsellSelected);
+    toggle.textContent = upsellSelected ? '✓' : '+';
+    summaryLine.classList.toggle('visible', upsellSelected);
+    totalPrice.innerHTML = upsellSelected ? '<sup>€</sup>97' : '<sup>€</sup>47';
+  }
+
+  function goToPayment(e) {
+    e.preventDefault();
+    const url = upsellSelected ? ELITE_URL : CORE_URL;
+    window.location.href = url;
+  }
+</script>
+</body>
+</html>

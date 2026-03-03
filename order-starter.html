@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tracker Energy & Habitudes — Confirme ta commande</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #0a0a0a;
+  --white: #ffffff;
+  --off-white: #f7f6f3;
+  --gray-100: #f0efe9;
+  --gray-300: #d4d2ca;
+  --gray-500: #8a887e;
+  --gray-700: #3d3c37;
+  --blue: #0071e3;
+  --blue-light: #e8f2ff;
+  --green: #1a9e5c;
+  --green-light: #e6f7ef;
+  --amber: #d97706;
+  --amber-light: #fef3c7;
+  --text: #1a1a18;
+  --text-soft: #6b6960;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--off-white);
+  color: var(--text);
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─── PROGRESS BAR ─── */
+.progress-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gray-300);
+  z-index: 100;
+}
+.progress-fill {
+  height: 100%;
+  width: 66%;
+  background: var(--blue);
+  transition: width 0.4s ease;
+}
+
+/* ─── NAV ─── */
+nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-300);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 3px;
+}
+.nav-logo {
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.nav-steps {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--gray-500);
+  letter-spacing: 0.03em;
+}
+.nav-step { display: flex; align-items: center; gap: 6px; }
+.nav-step-num {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700;
+  background: var(--gray-300);
+  color: var(--gray-500);
+}
+.nav-step.active .nav-step-num { background: var(--blue); color: white; }
+.nav-step.done .nav-step-num { background: var(--green); color: white; }
+.nav-step-label { font-size: 11px; }
+.nav-sep { color: var(--gray-300); font-size: 10px; }
+
+/* ─── LAYOUT ─── */
+.page {
+  min-height: 100vh;
+  padding: 48px 24px 80px;
+}
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 32px;
+  align-items: start;
+}
+
+/* ─── LEFT COLUMN ─── */
+.left-col { display: flex; flex-direction: column; gap: 24px; }
+
+/* ─── SECTION CARD ─── */
+.card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 32px;
+  border: 1px solid var(--gray-300);
+}
+
+.card-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+
+.card h2 {
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+
+.card p {
+  font-size: 15px;
+  color: var(--text-soft);
+  line-height: 1.65;
+}
+
+/* ─── PRODUCT PREVIEW ─── */
+.product-preview {
+  background: var(--black);
+  border-radius: 20px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.product-preview::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(0,113,227,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.product-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 20px;
+}
+.product-title {
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: #f5f5f2;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 24px;
+}
+.product-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.product-feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(245,245,242,0.75);
+}
+.feat-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--blue);
+  flex-shrink: 0;
+}
+.product-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.product-price-main {
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  color: #f5f5f2;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.product-price-main sup { font-size: 18px; vertical-align: super; }
+.product-price-note {
+  font-size: 13px;
+  color: rgba(245,245,242,0.35);
+}
+
+/* ─── UPSELL CARD ─── */
+.upsell-card {
+  background: var(--white);
+  border: 2px solid var(--blue);
+  border-radius: 20px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.upsell-card:hover { box-shadow: 0 8px 32px rgba(0,113,227,0.12); }
+.upsell-card.selected {
+  background: var(--blue-light);
+  border-color: var(--blue);
+}
+.upsell-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--amber-light);
+  color: var(--amber);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+.upsell-title {
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.upsell-desc {
+  font-size: 14px;
+  color: var(--text-soft);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.upsell-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.upsell-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.upsell-new-price {
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--blue);
+  letter-spacing: -0.03em;
+}
+.upsell-new-price sup { font-size: 14px; vertical-align: super; }
+.upsell-old-price {
+  font-size: 14px;
+  color: var(--text-soft);
+  text-decoration: line-through;
+}
+.upsell-toggle {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--blue);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  color: var(--blue);
+  font-weight: 700;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.upsell-card.selected .upsell-toggle {
+  background: var(--blue);
+  color: white;
+}
+.upsell-what {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0,113,227,0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.upsell-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-soft);
+}
+.upsell-item-check { color: var(--blue); font-weight: 700; font-size: 12px; }
+
+/* ─── STICKY RIGHT COLUMN ─── */
+.right-col {
+  position: sticky;
+  top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.summary-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 28px;
+  border: 1px solid var(--gray-300);
+}
+.summary-title {
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--gray-300);
+}
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  padding: 8px 0;
+  color: var(--text-soft);
+}
+.summary-line.main { color: var(--text); font-weight: 500; }
+.summary-line.upsell-line {
+  color: var(--blue);
+  font-size: 13px;
+  opacity: 0;
+  max-height: 0;
+  padding: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.summary-line.upsell-line.visible {
+  opacity: 1;
+  max-height: 40px;
+  padding: 8px 0;
+}
+.summary-divider { border: none; border-top: 1px solid var(--gray-300); margin: 8px 0; }
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+}
+.summary-total-label {
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+.summary-total-price {
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  transition: all 0.3s ease;
+}
+.summary-total-price sup { font-size: 14px; vertical-align: super; }
+
+.cta-btn {
+  display: block;
+  width: 100%;
+  background: var(--blue);
+  color: white;
+  text-align: center;
+  padding: 16px 20px;
+  border-radius: 14px;
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.cta-btn:hover { background: #0066cc; transform: translateY(-1px); }
+.cta-btn:active { transform: translateY(0); }
+
+.secure-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: var(--green-light);
+  border-radius: 14px;
+}
+.secure-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--green);
+  font-weight: 500;
+}
+
+.reassurance-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid var(--gray-300);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.reassurance-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.reassurance-icon { font-size: 18px; flex-shrink: 0; }
+.reassurance-text { font-size: 13px; color: var(--text-soft); line-height: 1.5; }
+.reassurance-text strong { color: var(--text); font-weight: 600; }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards;
+}
+.fade-up:nth-child(1) { animation-delay: 0.05s; }
+.fade-up:nth-child(2) { animation-delay: 0.15s; }
+.fade-up:nth-child(3) { animation-delay: 0.25s; }
+.fade-up:nth-child(4) { animation-delay: 0.35s; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 720px) {
+  .container { grid-template-columns: 1fr; }
+  .right-col { position: static; }
+  .nav-steps { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress-bar"><div class="progress-fill"></div></div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-logo">Optimizationn ®</div>
+  <div class="nav-steps">
+    <div class="nav-step done">
+      <div class="nav-step-num">✓</div>
+      <div class="nav-step-label">Offre</div>
+    </div>
+    <div class="nav-sep">›</div>
+    <div class="nav-step active">
+      <div class="nav-step-num">2</div>
+      <div class="nav-step-label">Confirmation</div>
+    </div>
+    <div class="nav-sep">›</div>
+    <div class="nav-step">
+      <div class="nav-step-num">3</div>
+      <div class="nav-step-label">Paiement</div>
+    </div>
+  </div>
+</nav>
+
+<!-- Main -->
+<div class="page">
+  <div class="container">
+
+    <!-- LEFT -->
+    <div class="left-col">
+
+      <!-- Product recap -->
+      <div class="fade-up">
+        <div class="card-eyebrow" style="margin-bottom:8px;">Ta commande</div>
+        <div class="product-preview">
+          <div class="product-label">Inclus dans ta commande</div>
+          <div class="product-title">Tracker Energy<br>& Habitudes</div>
+          <ul class="product-features">
+            <li class="product-feature">
+              <span class="feat-dot"></span>
+              Suivi semaine par semaine de ton énergie
+            </li>
+            <li class="product-feature">
+              <span class="feat-dot"></span>
+              Suivi de tes habitudes & routines
+            </li>
+            <li class="product-feature">
+              <span class="feat-dot"></span>
+              Visualisation de ta progression
+            </li>
+            <li class="product-feature">
+              <span class="feat-dot"></span>
+              Compatible Excel & Google Sheets
+            </li>
+          </ul>
+          <div class="product-price-row">
+            <div class="product-price-main"><sup>€</sup>17</div>
+            <div class="product-price-note">paiement unique · accès immédiat</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upsell -->
+      <div class="fade-up" id="upsell-wrapper">
+        <div class="card-eyebrow" style="margin-bottom:12px;">Ajoute à ta commande</div>
+        <div class="upsell-card" id="upsell-card" onclick="toggleUpsell()">
+          <div class="upsell-badge">⚡ Offre spéciale · une seule fois</div>
+          <div class="upsell-title">Passe au protocole complet</div>
+          <div class="upsell-desc">Tu as le tracker — mais sans les formations, tu avances à l'aveugle. Ajoute l'accès complet Energy & Mindset Optimizationn pour 30€ de plus. Maintenant ou jamais à ce prix.</div>
+          <div class="upsell-what">
+            <div class="upsell-item">
+              <span class="upsell-item-check">✓</span>
+              Modules Energy Optimizationn ® complets
+            </div>
+            <div class="upsell-item">
+              <span class="upsell-item-check">✓</span>
+              Modules Mindset Optimizationn ® complets
+            </div>
+            <div class="upsell-item">
+              <span class="upsell-item-check">✓</span>
+              Annexes, routines & cours
+            </div>
+          </div>
+          <div class="upsell-price-row" style="margin-top:16px;">
+            <div class="upsell-price">
+              <div class="upsell-new-price"><sup>€</sup>30 <span style="font-size:14px; font-weight:400; color:var(--text-soft);">de plus</span></div>
+              <div class="upsell-old-price">soit 47€ au total (vs 97€)</div>
+            </div>
+            <div class="upsell-toggle" id="upsell-toggle">+</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reassurance bottom -->
+      <div class="fade-up card" style="background: var(--gray-100); border-color: transparent;">
+        <p style="font-size:13px; color:var(--text-soft); line-height:1.7;">
+          <strong style="color:var(--text);">Accès immédiat après paiement.</strong> Tu reçois un email avec ton lien de téléchargement. Si tu n'as pas reçu dans 5 minutes, vérifie tes spams — ou réponds directement à l'email de confirmation.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right-col fade-up">
+
+      <!-- Summary -->
+      <div class="summary-card">
+        <div class="summary-title">Récapitulatif</div>
+
+        <div class="summary-line main">
+          <span>Tracker Energy & Habitudes</span>
+          <span>17€</span>
+        </div>
+        <div class="summary-line upsell-line" id="upsell-summary-line">
+          <span>+ Protocole complet</span>
+          <span>+30€</span>
+        </div>
+
+        <hr class="summary-divider">
+
+        <div class="summary-total">
+          <div class="summary-total-label">Total</div>
+          <div class="summary-total-price" id="total-price"><sup>€</sup>17</div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <a href="#" class="cta-btn" id="main-cta" onclick="goToPayment(event)">
+        Accéder au paiement sécurisé →
+      </a>
+
+      <!-- Security -->
+      <div class="secure-badges">
+        <div class="secure-badge">🔒 Paiement 100% sécurisé</div>
+        <div class="secure-badge">⚡ Accès immédiat après paiement</div>
+        <div class="secure-badge">📧 Lien envoyé par email</div>
+      </div>
+
+      <!-- Reassurance -->
+      <div class="reassurance-card">
+        <div class="reassurance-item">
+          <div class="reassurance-icon">💬</div>
+          <div class="reassurance-text"><strong>Une question ?</strong> Réponds à l'email de confirmation ou contacte @optimisationn sur Instagram.</div>
+        </div>
+        <div class="reassurance-item">
+          <div class="reassurance-icon">📱</div>
+          <div class="reassurance-text"><strong>Compatible partout.</strong> Excel, Google Sheets, Mac, PC, mobile.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // URLs système.io — remplace par tes vrais liens
+  const TRACKER_URL = 'https://s93926960.systeme.io/commandeoptimisationntracker';
+  const CORE_URL    = 'https://s93926960.systeme.io/commandeoptimisationnelitecore';
+
+  let upsellSelected = false;
+
+  function toggleUpsell() {
+    upsellSelected = !upsellSelected;
+    const card = document.getElementById('upsell-card');
+    const toggle = document.getElementById('upsell-toggle');
+    const summaryLine = document.getElementById('upsell-summary-line');
+    const totalPrice = document.getElementById('total-price');
+
+    card.classList.toggle('selected', upsellSelected);
+    toggle.textContent = upsellSelected ? '✓' : '+';
+    summaryLine.classList.toggle('visible', upsellSelected);
+    totalPrice.innerHTML = upsellSelected ? '<sup>€</sup>47' : '<sup>€</sup>17';
+  }
+
+  function goToPayment(e) {
+    e.preventDefault();
+    const url = upsellSelected ? CORE_URL : TRACKER_URL;
+    window.location.href = url;
+  }
+</script>
+</body>
+</html>
