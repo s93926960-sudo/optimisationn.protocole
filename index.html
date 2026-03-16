@@ -947,6 +947,74 @@ footer {
 </head>
 <body>
 
+<!-- ── PROMO BANNER ── -->
+<div class="promo-banner">
+  <div class="promo-banner-inner">
+    <span class="promo-pulse"></span>
+    <span class="promo-banner-text">Code promo <strong>OPTI30</strong> — <strong>-30%</strong> sur toutes les offres</span>
+    <span class="promo-banner-cta">Applique-le au moment de la commande</span>
+  </div>
+</div>
+
+<style>
+.promo-banner {
+  position: fixed;
+  top: 52px;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: linear-gradient(135deg, #ff6b35, #e63946, #ff6b35);
+  background-size: 200% 200%;
+  animation: promoBg 3s ease infinite;
+  padding: 10px 20px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(230,57,70,0.3);
+}
+@keyframes promoBg {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.promo-banner-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.promo-pulse {
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-radius: 50%;
+  animation: pulse 1.5s ease infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.4); }
+}
+.promo-banner-text {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.promo-banner-text strong {
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+}
+.promo-banner-cta {
+  color: rgba(255,255,255,0.7);
+  font-size: 12px;
+}
+.hero { padding-top: 140px !important; }
+@media (max-width: 780px) {
+  .promo-banner { top: 52px; padding: 8px 12px; }
+  .promo-banner-text { font-size: 13px; }
+  .promo-banner-cta { display: none; }
+}
+</style>
+
 <!-- ── NAV ── -->
 <nav>
   <span class="nav-logo">Optimizationn ®</span>
@@ -956,8 +1024,8 @@ footer {
 <!-- ── HERO ── -->
 <section class="hero">
   <div class="hero-eyebrow">Energy & Mindset Optimizationn ®</div>
-  <h1>Tu avances. Mais jamais<br><em>aussi vite que tu pourrais.</em></h1>
-  <p class="hero-sub">Le protocole qui recalibre ton énergie et reprogramme ton mental — pour que tes efforts produisent enfin des résultats à la hauteur de ton ambition.</p>
+  <h1>Ton potentiel existe déjà.<br><em>Il attend juste d'être optimisé.</em></h1>
+  <p class="hero-sub">Le seul protocole qui combine énergie physique et mental de haute performance — pour les personnes qui veulent vraiment avancer.</p>
   <div class="hero-actions">
     <a href="#pricing" class="btn-primary">Accéder au protocole</a>
     <a href="#ident" class="btn-text">Lire mon histoire</a>
@@ -1138,47 +1206,16 @@ Ambition intacte. Efforts réels. Pourtant — énergie à plat, confiance inexi
   </div>
 </section>
 
-<!-- ── TÉMOIGNAGES ── -->
-<section class="section" style="background: var(--white);">
-  <div class="section-inner reveal">
-    <span class="eyebrow">Ils l'ont appliqué</span>
-    <h2 class="display">Ce que ça change, <em>concrètement.</em></h2>
-    <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 48px;">
-      <div style="background: var(--near-white); border-radius: 18px; padding: 32px;">
-        <div style="color: #f5a623; font-size: 18px; margin-bottom: 16px; letter-spacing: 2px;">★★★★★</div>
-        <p style="font-size: 17px; color: var(--text); line-height: 1.7; letter-spacing: -0.01em; margin-bottom: 20px; font-style: italic;">« J'étais sceptique au départ mais les résultats sont là. J'avais enregistré des conseils par ci par là sur insta pour évoluer mais sans jamais vraiment appliquer et je savais pas dans quel ordre le faire. Là, ça reprend les bases vraiment efficaces et y'a une progression pas à pas claire. J'ai découvert pas mal de trucs utiles comme la HRV et la technique de Huberman que j'utilise au quotidien maintenant. »</p>
-        <p style="font-size: 13px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.02em;">Ronan S. — <span style="color: var(--blue);">vérifié ✓</span></p>
-      </div>
-      <div style="background: var(--near-white); border-radius: 18px; padding: 32px;">
-        <div style="color: #f5a623; font-size: 18px; margin-bottom: 16px; letter-spacing: 2px;">★★★★</div>
-        <p style="font-size: 17px; color: var(--text); line-height: 1.7; letter-spacing: -0.01em; margin-bottom: 20px; font-style: italic;">« Ce qui m'a convaincu c'est le tracker et la partie mindset. J'avais besoin d'un cadre clair, pouvoir observer ma progression et avancer mentalement — et ça marche. Mon drive au quotidien a vraiment changé et j'avance plus vite dans mes projets. Vraiment incroyable, je recommande. »</p>
-        <p style="font-size: 13px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.02em;">Simon G. — <span style="color: var(--blue);">vérifié ✓</span></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── GARANTIE ── -->
-<section class="section" style="background: var(--near-white); padding-top: 0;">
-  <div class="section-inner reveal">
-    <div style="background: var(--dark-gray); border-radius: 24px; padding: 48px 40px; text-align: center; position: relative; overflow: hidden;">
-      <div style="position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0,113,227,0.07) 0%, transparent 70%); pointer-events: none;"></div>
-      <div style="position: relative;">
-        <div style="font-size: 48px; margin-bottom: 20px;">🛡️</div>
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 16px;">Garantie satisfaction</div>
-        <h3 style="font-size: clamp(24px, 3.5vw, 36px); font-weight: 700; color: #f5f5f7; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 20px;">30 jours pour en être certain.<br><span style="font-weight: 300; font-style: italic;">Sinon, remboursé.</span></h3>
-        <p style="font-size: 17px; color: rgba(245,245,247,0.6); max-width: 480px; margin: 0 auto; line-height: 1.6; letter-spacing: -0.01em;">Si tu appliques le protocole pendant 30 jours et que tu ne constates aucun changement — je te rembourse. Sans justification compliquée.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ── PRICING ── -->
 <section class="section pricing-section" id="pricing">
   <div class="section-wide reveal">
     <span class="eyebrow" style="text-align:center; display:block;">L'offre</span>
     <h2 class="display" style="text-align:center; max-width:600px; margin: 0 auto 12px;">Choisis ton niveau d'engagement.</h2>
-    <p style="text-align:center; color:var(--text-secondary); font-size:17px; margin-bottom:52px; letter-spacing:-0.01em;">Plus tu t'engages, plus tu avances vite.</p>
+    <p style="text-align:center; color:var(--text-secondary); font-size:17px; margin-bottom:16px; letter-spacing:-0.01em;">Plus tu t'engages, plus tu avances vite.</p>
+    <div style="text-align:center; margin-bottom:42px; padding:14px 24px; background:linear-gradient(135deg,#fff5f5,#fff0eb); border:2px dashed #e63946; border-radius:12px; display:inline-flex; align-items:center; gap:10px; margin-left:auto; margin-right:auto;">
+      <span style="font-size:22px;">🔥</span>
+      <span style="font-size:15px; color:#e63946; font-weight:700; letter-spacing:0.03em;">Code OPTI30 = -30% sur ta commande</span>
+    </div>
 
     <div class="pricing-grid">
 
